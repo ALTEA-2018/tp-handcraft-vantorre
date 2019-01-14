@@ -1,3 +1,4 @@
+import annotations.Controller;
 import annotations.RequestMapping;
 
 import javax.servlet.ServletConfig;
@@ -31,7 +32,15 @@ public class DispatcherServlet extends HttpServlet {
 
     protected void registerController(Class controllerClass) {
         System.out.println("Analysing class " + controllerClass.getName());
-        Arrays.stream(controllerClass.getMethods()).forEach(method -> registerMethod(method));
+        if (controllerClass.getDeclaredAnnotation(Controller.class) != null) {
+            Arrays.stream(controllerClass.getMethods()).forEach(method -> {
+                if (method.getDeclaredAnnotation(RequestMapping.class) != null && method.getReturnType() != void.class) {
+                    registerMethod(method);
+                }
+            });
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
     protected void registerMethod(Method method) {
