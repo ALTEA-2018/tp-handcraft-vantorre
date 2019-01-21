@@ -1,4 +1,7 @@
-annotations/Controller.class
 annotations/RequestMapping.class
 DispatcherServlet.class
+com/miage/altea/bo/PokemonType.class
 HelloController.class
+annotations/Controller.class
+com/miage/altea/bo/Stats.class
+com/miage/altea/bo/Sprites.class
