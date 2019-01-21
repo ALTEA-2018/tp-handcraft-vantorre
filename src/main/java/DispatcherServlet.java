@@ -1,5 +1,6 @@
 import annotations.Controller;
 import annotations.RequestMapping;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.miage.altea.controller.HelloController;
 import com.miage.altea.controller.PokemonTypeController;
 
@@ -25,6 +26,7 @@ public class DispatcherServlet extends HttpServlet {
         System.out.println("Getting request for " + req.getRequestURI());
         String uri = req.getRequestURI();
         if(uriMappings.containsKey(uri)) {
+            ObjectMapper mapper = new ObjectMapper();
             Method met = uriMappings.get(uri);
             Class<?> controller = met.getDeclaringClass();
 
@@ -32,11 +34,11 @@ public class DispatcherServlet extends HttpServlet {
             try {
                 if(!parameters.isEmpty()) {
                     Object result = met.invoke(controller.newInstance(),parameters);
-                    resp.getWriter().print(result.toString());
+                    resp.getWriter().print(mapper.writeValueAsString(result.toString()));
                 }
                 else {
                     Object result = met.invoke(controller.newInstance());
-                    resp.getWriter().print(result.toString());
+                    resp.getWriter().print(mapper.writeValueAsString(result.toString()));
                 }
             }
 
