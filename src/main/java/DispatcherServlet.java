@@ -7,6 +7,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -18,9 +20,33 @@ public class DispatcherServlet extends HttpServlet {
     private Map<String, Method> uriMappings = new HashMap<>();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         System.out.println("Getting request for " + req.getRequestURI());
-        // TODO (instancier le controller)
+        String uri = req.getRequestURI();
+        if(uriMappings.containsKey(uri)) {
+            Method met = uriMappings.get(uri);
+            Class<?> controller = met.getDeclaringClass();
+
+            Map<String,String[]> parameters = req.getParameterMap();
+            try {
+                if(!parameters.isEmpty()) {
+                    Object result = met.invoke(controller.newInstance(),parameters);
+                    resp.getWriter().print(result.toString());
+                }
+                else {
+                    Object result = met.invoke(controller.newInstance());
+                    resp.getWriter().print(result.toString());
+                }
+            }
+
+            catch (Exception e) {
+                resp.sendError(500, "exception when calling method " + met.getName() + " : " + e.getCause().getMessage());
+            }
+
+        }
+        else {
+            resp.sendError(404,"no mapping found for request uri /test");
+        }
     }
 
     @Override
