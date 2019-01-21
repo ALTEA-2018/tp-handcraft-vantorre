@@ -1,6 +1,9 @@
 DispatcherServletTest.class
-SomeControllerClass.class
-SomeEmptyClass.class
+PokemonTypeRepositoryTest.class
 SomeControllerClassWithAVoidMethod.class
 SomeControllerClassWithAMethod.class
+JacksonDatabindTest$Car.class
+SomeControllerClass.class
+SomeEmptyClass.class
 SomeOtherControllerClass.class
+JacksonDatabindTest.class

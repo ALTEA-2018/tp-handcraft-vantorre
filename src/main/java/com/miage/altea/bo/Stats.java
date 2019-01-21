@@ -1,5 +1,8 @@
 package com.miage.altea.bo;
 
+import lombok.Data;
+
+@Data
 public class Stats {
 
     private Integer speed;
