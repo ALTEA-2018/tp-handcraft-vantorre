@@ -1,3 +1,5 @@
+package com.miage.altea.controller;
+
 import annotations.Controller;
 import annotations.RequestMapping;
 

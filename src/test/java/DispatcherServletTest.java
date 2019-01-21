@@ -1,6 +1,7 @@
 
 import annotations.Controller;
 import annotations.RequestMapping;
+import com.miage.altea.controller.HelloController;
 import org.junit.jupiter.api.Test;
 
 import javax.servlet.http.HttpServletRequest;
